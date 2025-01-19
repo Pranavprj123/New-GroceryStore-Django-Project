@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/groceryCart.css' %}">
+{% endblock %}
+
+{% block HeroSection %}
+<main class="pt-32 pb-16 max-w-7xl mx-auto px-4">
+    <h1 class="text-3xl font-bold mb-8">Grocery Cart</h1>
+
+    {% if messages %}
+    <div class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md">
+        {% for message in messages %}
+        <div class="bg-white border border-green-100 rounded-lg shadow-lg p-4 mb-4 animate-fade-in flex items-start">
+            <div class="flex-shrink-0 mr-3">
+                <svg style="width: 50px; height: 50px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                
+            </div>
+            <div class="flex-1">
+                <p class="text-sm font-medium text-gray-900">{{ message }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if not user.is_authenticated %}
+    <div class="text-center py-16">
+        <div class="mx-auto w-24 h-24 mb-4">
+            <svg style="width: 50px; height: 50px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            
+        </div>
+        <h2 class="text-xl font-medium mb-2">Please log in to view your cart</h2>
+        <p class="text-gray-500 mb-6">Sign in to access your grocery cart and complete your order</p>
+        <a href="{% url 'login' %}" class="inline-block bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition">
+            Sign In
+        </a>
+    </div>
+    {% else %}
+        {% if not carts %}
+        <div class="text-center py-16">
+            <div class="mx-auto w-24 h-24 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-full h-full text-gray-300">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+            </div>
+            <h2 class="text-xl font-medium mb-2">Your cart is empty</h2>
+            <p class="text-gray-500 mb-6">Browse our grocery categories and add items to your cart</p>
+            <a href="{% url 'Home' %}" class="inline-block bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition">
+                Shop Groceries
+            </a>
+        </div>
+        {% else %}
+        <div class="grid md:grid-cols-3 gap-8">
+            <section class="md:col-span-2 space-y-6">
+                {% for cart in carts %}
+                <div class="bg-white p-6 rounded-lg shadow-sm flex space-x-6" data-price="{{ cart.product.discounted_price }}">
+                    <img src="{{cart.product.image.url}}" alt="{{ cart.product.name }}" class="w-24 h-24 object-cover rounded" />
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-lg font-medium">{{cart.product.name}}</h3>
+                                <p class="text-gray-500 mt-1">{{ cart.product.weight }} ({{ cart.product.unit }})</p>
+                                <p class="text-green-600 font-bold text-xl mt-3">₹{{ cart.product.discounted_price }}</p>
+                                <p class="text-gray-500 line-through">₹{{ cart.product.original_price }}</p>
+                            </div>
+                            <button class="text-gray-400 hover:text-gray-600 remove-item">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-center">
+                                <form method="POST" action="{% url 'update_cart_quantity' cart.id %}" class="inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="decrease">
+                                    <button type="submit" class="border rounded-l px-3 py-2 hover:bg-gray-100">-</button>
+                                </form>
+
+                                <input type="number" value="{{ cart.quantity }}" min="1" class="border-t border-b w-16 py-1 text-center" readonly />
+
+                                <form method="POST" action="{% url 'update_cart_quantity' cart.id %}" class="inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="increase">
+                                    <button type="submit" class="border rounded-r px-3 py-2 hover:bg-gray-100">+</button>
+                                </form>
+                            </div>
+                        </div>
+                        <form method="POST" action="{% url 'remove_from_cart' cart.id %}" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="mt-4 w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">
+                                Remove
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+
+            <aside class="space-y-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h2 class="text-xl font-bold mb-4">Order Summary</h2>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Subtotal</span>
+                            <span id="subtotal">₹{{ amount }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Shipping</span>
+                            <span id="shipping">₹50.00</span>
+                        </div>
+                        <div class="flex justify-between font-bold pt-3 border-t">
+                            <span>Total</span>
+                            <span id="total">₹{{ total_amount }}</span>
+                        </div>
+                    </div>
+                    <a href="{% url 'Check_out' %}">
+                        <button class="w-full bg-green-600 text-white py-3 rounded hover:bg-green-700">
+                            Proceed to Checkout
+                        </button>
+                    </a>
+                </div>
+            </aside>
+        </div>
+        {% endif %}
+    {% endif %}
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/groceryCart.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/base.css'%}">
+    <title>Daily Grocery - Fresh and Healthy</title>
+    {% block style %}
+
+    {% endblock %}
+</head>
+
+<body>
+
+    {% block Navbar %}
+    <header class="header">
+        <a href="{% url 'Home' %}" style="text-decoration: none;">
+            <div class="logo" >
+                <span>G</span>rocery
+            </div>
+        </a>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="header-icons">
+            <a><i class="ri-heart-line"></i></a>
+            <select onchange="location = this.value;">
+                <option value="">Profile</option>
+                <option value="{% url 'register' %}">Register</option>
+                <option value="{% url 'login' %}">Login</option>
+            </select>
+
+            <a><i class="ri-shopping-cart-line"></i></a>
+        </div>
+
+    </header>
+
+    <nav class="nav">
+        <ul class="nav-list">
+            <li class="categories-btn">☰ All Categories</li>
+            <li href="#">Home</li>
+            <li>Shop</li>
+            <li>Vegetables & Fruits</li>
+            <li>FoodGrains & Oil</li>
+            <li>Dairy Products</li>
+            <li>Contact Us</li>
+        </ul>
+    </nav>
+
+    <div class="filter-section">
+        <div class="filter-container">
+            <div class="filter-group">
+                <select class="filter-select">
+                    <option value="">Categories</option>
+                    <option value="vegetables">Vegetables</option>
+                    <option value="fruits">Fruits</option>
+                    <option value="grains">Grains</option>
+                    <option value="dairy">Dairy</option>
+                </select>
+                <select class="filter-select">
+                    <option value="">Price Range</option>
+                    <option value="0-200">&#8377;0 - &#8377;200</option>
+                    <option value="200-400">&#8377;200 - &#8377;400</option>
+                    <option value="400-600">&#8377;400 - &#8377;600</option>
+                    <option value="600+">&#8377;600+</option>
+                </select>
+                <select class="filter-select">
+                    <option value="">Sort By</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="name">Name</option>
+                </select>
+            </div>
+            <div class="filter-search">
+                <input type="text" placeholder="Search within results...">
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block HeroSection %}
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Daily Grocery<br>Fresh and Healthy</h1>
+            <p>Direct to your home</p>
+            <a href="#" class="shop-now-btn">Shop Now</a>
+        </div>
+        <div class="hero-image">
+            <img src="{% static 'images/banner.png' %}" style="width:80%;height:100%" alt="Fresh groceries">
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+
+            <h3> <i class="ri-plane-fill"></i>Free Shipping</h3>
+            <p>On all order over</p>
+        </div>
+        <div class="feature-card">
+            <h3><i class="ri-money-dollar-circle-fill"></i> Join Risk Free</h3>
+            <p>30 days refund</p>
+        </div>
+        <div class="feature-card">
+            <h3><i class="ri-cup-fill"></i> Support 24/7</h3>
+            <p>Online 24 hours</p>
+        </div>
+        <div class="feature-card">
+            <h3><i class="ri-umbrella-fill"></i> 100% Safe</h3>
+            <p>Secure shopping</p>
+        </div>
+    </section>
+    {% endblock %}
+    {% block Content %}
+    <section class="products">
+        <h2 class="section-title">Green & Fresh</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="/api/placeholder/200/200" alt="Organic Grapes">
+                <h3>Organic Grapes</h3>
+                <p class="price">
+                    <span class="original-price">&#8377;22.00</span>
+                    &#8377;20.00
+                </p>
+            </div>
+            <div class="product-card">
+                <img src="/api/placeholder/200/200" alt="Organic Green Chillies">
+                <h3>Organic Green Chillies</h3>
+                <p class="price">&#8377;10.00</p>
+            </div>
+            <div class="product-card">
+                <img src="{{ product.image.url }}" alt="Organic Capsicum">
+                <h3>Organic Capsicum</h3>
+                <p class="price">&#8377;22.00</p>
+            </div>
+            <div class="product-card">
+                <img src="/api/placeholder/200/200" alt="Organic Peas">
+                <h3>Organic Peas</h3>
+                <p class="price">&#8377;17.00</p>
+            </div>
+            <div class="product-card">
+                <img src="/api/placeholder/200/200" alt="Organic Tomatoes">
+                <h3>Organic Tomatoes</h3>
+                <p class="price">
+                    <span class="original-price">&#8377;15.00</span>
+                    &#8377;12.00
+                </p>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+</body>
+
+</html>
