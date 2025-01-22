@@ -272,3 +272,10 @@
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
 }
+
+
+/* #user-menu-button:focus+#user-dropdown,
+#user-dropdown:hover {
+        display: block;
+    /* }  */
+

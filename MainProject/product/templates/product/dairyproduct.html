@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/groceryCart.css' %}">
+{% endblock %}
+
+{% block HeroSection %}
+<div class="page-content">
+    <h1 class="page-title">Dairy Products</h1>
+    <div class="product-grid">
+        <div class="product-card">
+            <img src="milk.jpg" alt="Fresh Milk" class="product-image">
+            <h3 class="product-name">Fresh Milk</h3>
+            <p class="product-price">&#8377;5.00</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
+                <span class="quantity">1</span>
+                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
+            </div>
+            <button class="add-to-cart" onclick="addToCart(this)">
+                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                Add to Cart
+            </button>
+        </div>
+        <div class="product-card">
+            <img src="yogurt.jpg" alt="Greek Yogurt" class="product-image">
+            <h3 class="product-name">Greek Yogurt</h3>
+            <p class="product-price">&#8377;8.00</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
+                <span class="quantity">1</span>
+                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
+            </div>
+            <button class="add-to-cart" onclick="addToCart(this)">
+                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                Add to Cart
+            </button>
+        </div>
+        <div class="product-card">
+            <img src="yogurt.jpg" alt="Greek Yogurt" class="product-image">
+            <h3 class="product-name">Greek Yogurt</h3>
+            <p class="product-price">&#8377;8.00</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
+                <span class="quantity">1</span>
+                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
+            </div>
+            <button class="add-to-cart" onclick="addToCart(this)">
+                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                Add to Cart
+            </button>
+        </div>
+        <div class="product-card">
+            <img src="yogurt.jpg" alt="Greek Yogurt" class="product-image">
+            <h3 class="product-name">Greek Yogurt</h3>
+            <p class="product-price">&#8377;8.00</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
+                <span class="quantity">1</span>
+                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
+            </div>
+            <button class="add-to-cart" onclick="addToCart(this)">
+                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                Add to Cart
+            </button>
+        </div>
+        <div class="product-card">
+            <img src="yogurt.jpg" alt="Greek Yogurt" class="product-image">
+            <h3 class="product-name">Greek Yogurt</h3>
+            <p class="product-price">&#8377;8.00</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
+                <span class="quantity">1</span>
+                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
+            </div>
+            <button class="add-to-cart" onclick="addToCart(this)">
+                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                Add to Cart
+            </button>
+        </div>
+        <div class="product-card">
+            <img src="yogurt.jpg" alt="Greek Yogurt" class="product-image">
+            <h3 class="product-name">Greek Yogurt</h3>
+            <p class="product-price">&#8377;8.00</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
+                <span class="quantity">1</span>
+                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
+            </div>
+            <button class="add-to-cart" onclick="addToCart(this)">
+                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                Add to Cart
+            </button>
+        </div>
+        <div class="product-card">
+            <img src="yogurt.jpg" alt="Greek Yogurt" class="product-image">
+            <h3 class="product-name">Greek Yogurt</h3>
+            <p class="product-price">&#8377;8.00</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
+                <span class="quantity">1</span>
+                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
+            </div>
+            <button class="add-to-cart" onclick="addToCart(this)">
+                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                Add to Cart
+            </button>
+        </div>
+        <div class="product-card">
+            <img src="yogurt.jpg" alt="Greek Yogurt" class="product-image">
+            <h3 class="product-name">Greek Yogurt</h3>
+            <p class="product-price">&#8377;8.00</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
+                <span class="quantity">1</span>
+                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
+            </div>
+            <button class="add-to-cart" onclick="addToCart(this)">
+                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                Add to Cart
+            </button>
+        </div>
+        <!-- Add more product cards as needed -->
+    </div>
+</div>
+<script>
+    function incrementQuantity(btn) {
+        const quantitySpan = btn.parentElement.querySelector('.quantity');
+        let quantity = parseInt(quantitySpan.textContent);
+        quantitySpan.textContent = quantity + 1;
+    }
+
+    function decrementQuantity(btn) {
+        const quantitySpan = btn.parentElement.querySelector('.quantity');
+        let quantity = parseInt(quantitySpan.textContent);
+        if (quantity > 1) {
+            quantitySpan.textContent = quantity - 1;
+        }
+    }
+
+    function addToCart(btn) {
+        const card = btn.closest('.product-card');
+        const productName = card.querySelector('.product-name').textContent;
+        const quantity = card.querySelector('.quantity').textContent;
+        alert(`Added ${quantity} ${productName}(s) to cart`);
+        // Here you can add more functionality to handle the cart
+    }
+</script>
+{% endblock %}
+
+{% block Content %}
+
+{% endblock %}

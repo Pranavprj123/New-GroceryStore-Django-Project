@@ -15,38 +15,80 @@
 
 <body>
 
-    {% block Navbar %}
+{% block Navbar %}
     <header class="header">
         <a href="{% url 'Home' %}" style="text-decoration: none;">
             <div class="logo" >
                 <span>G</span>rocery
             </div>
         </a>
+        
         <div class="search-bar">
             <input type="text" placeholder="Search...">
         </div>
-        <div class="header-icons">
-            <a><i class="ri-heart-line"></i></a>
-            <select onchange="location = this.value;">
-                <option value="">Profile</option>
-                <option value="{% url 'register' %}">Register</option>
-                <option value="{% url 'login' %}">Login</option>
-            </select>
-
-            <a><i class="ri-shopping-cart-line"></i></a>
+        {% if user.is_authenticated %}
+        <div class="hidden md:block">
+            {% if user.is_authenticated %}
+            <span class="text-sm uppercase tracking-wider">Welcome, {{ user.username }}</span>
+            {% endif %}
         </div>
+
+        <div class="relative">
+            <button id="user-menu-button" class="flex items-center hover:text-gray-600">
+                <i class="ri-user-line"></i>
+            </button>
+
+            <button id="cart-button" class="relative hover:text-gray-600">
+                <a href="{% url 'Add_Cart' %}">
+                    <i class="ri-shopping-cart-line"></i>
+                    <span id="cart-count"
+                        class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                    </span>
+                </a>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div id="user-dropdown"
+                class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
+                <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    My Profile
+                </a>
+                <a href="{% url 'password_change' %}"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Change Password
+                </a>
+                
+                <form action="{% url 'logout' %}" method="POST" class="block">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <a href="{% url 'login' %}" class="text-sm uppercase tracking-wider hover:text-gray-600">
+            Login
+        </a>
+        <a href="{% url 'register' %}" class="text-sm uppercase tracking-wider hover:text-gray-600">
+            Register
+        </a>
+        {% endif %}
+    </div>
+</div>
 
     </header>
 
     <nav class="nav">
         <ul class="nav-list">
             <li class="categories-btn">☰ All Categories</li>
-            <li href="#">Home</li>
-            <li>Shop</li>
-            <li>Vegetables & Fruits</li>
-            <li>FoodGrains & Oil</li>
-            <li>Dairy Products</li>
-            <li>Contact Us</li>
+            <a href="{% url 'Home' %}" style="text-decoration: none;color: #ffffff;"><li >Home</li></a>
+            <a href="#" style="text-decoration: none;color: #ffffff;"><li>Shop</li></a>
+            <a href="{% url 'vege_fruit' %}" style="text-decoration: none;color: #ffffff;"><li>Vegetables & Fruits</li></a>
+            <a href="{% url 'grain_oil' %}" style="text-decoration: none;color: #ffffff;"><li>FoodGrains & Oil</li></a>
+            <a href="{% url 'dairyproduct' %}" style="text-decoration: none;color: #ffffff;"><li>Dairy Products</li></a>
+            <a href="{% url 'contactus' %}" style="text-decoration: none;color: #ffffff;"><li>Contact Us</li></a>
         </ul>
     </nav>
 
@@ -151,6 +193,8 @@
         </div>
     </section>
     {% endblock %}
+   
 </body>
 
 </html>
+

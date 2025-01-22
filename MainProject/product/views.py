@@ -11,9 +11,98 @@ from django.db import IntegrityError
 def Home(request):
     return render(request,'base.html')
 
+# def VegFruit(request):
+#     products = Product.objects.all()
+#     return render(request,'product/vege_fruit.html',{'products': products})
+
+# Prathamesh code :
+
+from django.shortcuts import render
+from django.db.models import Q
+
+# View for Vegetable & Fruits category
+def VegFruit(request):
+    # Base queryset for "Vegetable & Fruits" category
+    products = Product.objects.filter(category="Vegetable & Fruits")
+
+    # Get filtering parameters from the request
+    query = request.GET.get('query', '')
+    sort_by = request.GET.get('sort_by', '')
+
+    # Apply search filter
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query)
+        )
+
+    # Apply sorting logic
+    if sort_by == 'low_to_high':
+        products = products.order_by('selling_price')  # Ascending price
+    elif sort_by == 'high_to_low':
+        products = products.order_by('-selling_price')  # Descending price
+    else:
+        products = products.order_by('-id')  # Default: newest first
+
+    # Context for rendering the template
+    context = {
+        'products': products,
+        'query': query,
+        'selected_sort': sort_by,
+    }
+
+    return render(request, 'product/vege_fruit.html', context)
 
 
+# def GrainOil(request):
+#     products = Product.objects.all()
+#     return render(request,'product/grain_oil.html',{'products': products})
 
+
+# prathamesh code 
+
+from django.shortcuts import render
+from django.db.models import Q
+
+# View for Vegetable & Fruits category
+def GrainOil(request):
+    # Base queryset for "Vegetable & Fruits" category
+    products = Product.objects.filter(category="FoodGrains & Oil")
+
+    # Get filtering parameters from the request
+    query = request.GET.get('query', '')
+    sort_by = request.GET.get('sort_by', '')
+
+    # Apply search filter
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query)
+        )
+
+    # Apply sorting logic
+    if sort_by == 'low_to_high':
+        products = products.order_by('selling_price')  # Ascending price
+    elif sort_by == 'high_to_low':
+        products = products.order_by('-selling_price')  # Descending price
+    else:
+        products = products.order_by('-id')  # Default: newest first
+
+    # Context for rendering the template
+    context = {
+        'products': products,
+        'query': query,
+        'selected_sort': sort_by,
+    }
+
+    return render(request, 'product/grain_oil.html', context)
+
+
+def DairyProduct(request):
+    return render(request,'product/dairyproduct.html')
+
+def ContactUs(request):
+    return render(request,'product/contact.html')
 # def Home(request):
 #     products = Product.objects.filter(category="Gallery")
 #     brands = products.values_list('brand', flat=True).distinct()
