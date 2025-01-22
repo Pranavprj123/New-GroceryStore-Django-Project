@@ -82,7 +82,7 @@
 
     <nav class="nav">
         <ul class="nav-list">
-            <li class="categories-btn">☰ All Categories</li>
+            <li class="categories-btn"> All Categories</li>
             <a href="{% url 'Home' %}" style="text-decoration: none;color: #ffffff;"><li >Home</li></a>
             <a href="#" style="text-decoration: none;color: #ffffff;"><li>Shop</li></a>
             <a href="{% url 'vege_fruit' %}" style="text-decoration: none;color: #ffffff;"><li>Vegetables & Fruits</li></a>
@@ -92,35 +92,7 @@
         </ul>
     </nav>
 
-    <div class="filter-section">
-        <div class="filter-container">
-            <div class="filter-group">
-                <select class="filter-select">
-                    <option value="">Categories</option>
-                    <option value="vegetables">Vegetables</option>
-                    <option value="fruits">Fruits</option>
-                    <option value="grains">Grains</option>
-                    <option value="dairy">Dairy</option>
-                </select>
-                <select class="filter-select">
-                    <option value="">Price Range</option>
-                    <option value="0-200">&#8377;0 - &#8377;200</option>
-                    <option value="200-400">&#8377;200 - &#8377;400</option>
-                    <option value="400-600">&#8377;400 - &#8377;600</option>
-                    <option value="600+">&#8377;600+</option>
-                </select>
-                <select class="filter-select">
-                    <option value="">Sort By</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
-                    <option value="name">Name</option>
-                </select>
-            </div>
-            <div class="filter-search">
-                <input type="text" placeholder="Search within results...">
-            </div>
-        </div>
-    </div>
+    
     {% endblock %}
 
     {% block HeroSection %}

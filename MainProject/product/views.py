@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from product.models import Product,Cart,Wishlist
+from product.models import Product,Cart
 from django.views import View
 from decimal import Decimal 
 from django.contrib import messages
@@ -15,7 +15,7 @@ def Home(request):
 #     products = Product.objects.all()
 #     return render(request,'product/vege_fruit.html',{'products': products})
 
-# Prathamesh code :
+
 
 from django.shortcuts import render
 from django.db.models import Q
@@ -59,7 +59,7 @@ def VegFruit(request):
 #     return render(request,'product/grain_oil.html',{'products': products})
 
 
-# prathamesh code 
+
 
 from django.shortcuts import render
 from django.db.models import Q
@@ -98,8 +98,40 @@ def GrainOil(request):
     return render(request, 'product/grain_oil.html', context)
 
 
+# def DairyProduct(request):
+#     return render(request,'product/dairyproduct.html')
+
 def DairyProduct(request):
-    return render(request,'product/dairyproduct.html')
+    # Base queryset for "Vegetable & Fruits" category
+    products = Product.objects.filter(category="DairyProducts")
+
+    # Get filtering parameters from the request
+    query = request.GET.get('query', '')
+    sort_by = request.GET.get('sort_by', '')
+
+    # Apply search filter
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query)
+        )
+
+    # Apply sorting logic
+    if sort_by == 'low_to_high':
+        products = products.order_by('selling_price')  # Ascending price
+    elif sort_by == 'high_to_low':
+        products = products.order_by('-selling_price')  # Descending price
+    else:
+        products = products.order_by('-id')  # Default: newest first
+
+    # Context for rendering the template
+    context = {
+        'products': products,
+        'query': query,
+        'selected_sort': sort_by,
+    }
+
+    return render(request, 'product/dairyproduct.html', context)
 
 def ContactUs(request):
     return render(request,'product/contact.html')
@@ -125,13 +157,10 @@ def ContactUs(request):
 
 class ProductDetail(View):
     def get(self,request,pk):
-        product = get_object_or_404(Product, pk=pk)
-        print(product)
-        # Fetch similar products based on the same category
-        similar_products = Product.objects.filter(category=product.category).exclude(pk=pk)[:4]
+        product = get_object_or_404(Product, pk=pk)             
         context = {
             'product': product,
-            'similar_products': similar_products,
+            
         }
         return render (request,'product/detailPage.html',context)
     

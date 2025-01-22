@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/groceryCart.css' %}">
+{% endblock %}
+
+
+{% block HeroSection %}
+<br>
+<br>
+<main class="pt-24 max-w-7xl mx-auto px-4">
+    <!-- Product Section -->
+    <div class="grid md:grid-cols-2 gap-8 items-start">
+        <!-- Product Image with smaller size -->
+        <div class="w-80 h-90 mx-auto"> <!-- Adjusted size to be neither too small nor too big -->
+            <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                class="w-full h-full object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300">
+        </div>
+
+        <!-- Product Details -->
+        <div class="space-y-6">
+            <h2 class="text-2xl font-bold my-2">{{ product.name }}</h2>
+            <h2 class="text-lg font-bold my-2">Classic vintage denim jacket featuring distressed details and authentic
+                {{ product.brand }}</h2>
+            
+            <!-- Price section with better styling -->
+            <div class="flex items-center gap-4">
+                <p class="text-2xl text-red-500 font-bold">₹{{ product.selling_price }}</p>
+                <p class="text-lg text-gray-400 line-through">₹{{ product.discounted_price }}</p>
+            </div>
+
+            <p class="text-gray-600 leading-relaxed">Classic vintage denim jacket featuring distressed details and authentic
+                wear patterns. Perfect for casual everyday wear with its timeless design and comfortable fit.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint consequuntur ullam ut culpa
+                eligendi nam vel aut dolorem excepturi provident consequatur neque nemo, beatae dolores.</p>
+
+            <!-- Improved Cart and Wishlist section -->
+            <div class="flex gap-4 items-center">
+                <form action="{% url 'Add_Cart' %}" id="add-to-cart-form" class="flex-1">
+                    {% csrf_token %}
+                    <input type="hidden" name="prod_id" value="{{ product.id }}">
+                    <button type="submit" 
+                            class="w-full bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                        Add to Cart
+                    </button>
+                </form>
+
+                <form method="POST" action="{% url 'add_to_wishlist' product.id %}" class="flex-shrink-0">
+                    {% csrf_token %}
+                    <button type="submit" 
+                            class="p-3 rounded-lg border-2 border-gray-200 hover:border-red-500 hover:bg-red-50 transition-all duration-300 group shadow-md hover:shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" 
+                             class="h-6 w-6 text-gray-400 group-hover:text-red-500 transform group-hover:scale-110 transition-all duration-300" 
+                             fill="none" 
+                             viewBox="0 0 24 24" 
+                             stroke="currentColor">
+                            <path stroke-linecap="round" 
+                                  stroke-linejoin="round" 
+                                  stroke-width="2" 
+                                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <div class="border-t pt-6 space-y-4">
+
+                <div>
+                    <h3 class="font-semibold">Condition</h3>
+                    <p class="text-gray-600">Excellent vintage condition</p>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
+
+{% block product-grid %}
+
+
+        <section class="mt-16">
+            <h2 class="text-2xl font-bold mb-6">You May Also Like</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                {% for similar_product in similar_products %}
+                <div class="group">
+                    <div class="aspect-w-1 aspect-h-1 mb-4">
+                        <img src="{{ similar_product.image.url }}" alt="{{ similar_product.name }}"
+                            class="w-full h-full object-cover rounded-lg">
+                    </div>
+                    <h3 class="font-semibold">{{ similar_product.name }}</h3>
+                    <p class="text-red-500">{{ similar_product.selling_price }}</p>
+                    <!-- Place the button inside the loop -->
+                    <a href="{% url 'Detail' pk=similar_product.id %}">
+                        <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">View More</button>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+
+
+{% endblock %}

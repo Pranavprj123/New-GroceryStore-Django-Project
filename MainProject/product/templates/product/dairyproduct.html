@@ -8,140 +8,46 @@
 
 {% block HeroSection %}
 <div class="page-content">
-    <h1 class="page-title">Dairy Products</h1>
+    <h1 class="page-title">Vegetables & Fruits</h1>
+
+    <!-- Search and Sorting Form -->
+    <form method="get" class="filter-form">
+        <input type="text" name="query" placeholder="Search products..." value="{{ query }}" class="search-input">
+        <select name="sort_by" class="sort-dropdown">
+            <option value="">Sort By</option>
+            <option value="low_to_high" {% if selected_sort == "low_to_high" %}selected{% endif %}>Price: Low to High</option>
+            <option value="high_to_low" {% if selected_sort == "high_to_low" %}selected{% endif %}>Price: High to Low</option>
+        </select>
+        <button type="submit" style="background-color: #48bb78;border: none; color: white; padding: 2px;" class="filter-btn">Apply</button>
+    </form>
+
+    <!-- Products Grid -->
     <div class="product-grid">
+        {% for product in products %}
         <div class="product-card">
-            <img src="milk.jpg" alt="Fresh Milk" class="product-image">
-            <h3 class="product-name">Fresh Milk</h3>
-            <p class="product-price">&#8377;5.00</p>
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+            <h3 class="product-name">{{ product.name }}</h3>
+            <p class="product-price">&#8377;{{ product.selling_price }}</p>
             <div class="quantity-controls">
                 <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
                 <span class="quantity">1</span>
                 <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
             </div>
-            <button class="add-to-cart" onclick="addToCart(this)">
+            <a href="{% url 'Show_Cart' %}"><button class="add-to-cart" onclick="addToCart(this)">
                 <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
                 Add to Cart
-            </button>
+            </button></a>
         </div>
-        <div class="product-card">
-            <img src="yogurt.jpg" alt="Greek Yogurt" class="product-image">
-            <h3 class="product-name">Greek Yogurt</h3>
-            <p class="product-price">&#8377;8.00</p>
-            <div class="quantity-controls">
-                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
-                <span class="quantity">1</span>
-                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
-            </div>
-            <button class="add-to-cart" onclick="addToCart(this)">
-                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                </svg>
-                Add to Cart
-            </button>
-        </div>
-        <div class="product-card">
-            <img src="yogurt.jpg" alt="Greek Yogurt" class="product-image">
-            <h3 class="product-name">Greek Yogurt</h3>
-            <p class="product-price">&#8377;8.00</p>
-            <div class="quantity-controls">
-                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
-                <span class="quantity">1</span>
-                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
-            </div>
-            <button class="add-to-cart" onclick="addToCart(this)">
-                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                </svg>
-                Add to Cart
-            </button>
-        </div>
-        <div class="product-card">
-            <img src="yogurt.jpg" alt="Greek Yogurt" class="product-image">
-            <h3 class="product-name">Greek Yogurt</h3>
-            <p class="product-price">&#8377;8.00</p>
-            <div class="quantity-controls">
-                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
-                <span class="quantity">1</span>
-                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
-            </div>
-            <button class="add-to-cart" onclick="addToCart(this)">
-                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                </svg>
-                Add to Cart
-            </button>
-        </div>
-        <div class="product-card">
-            <img src="yogurt.jpg" alt="Greek Yogurt" class="product-image">
-            <h3 class="product-name">Greek Yogurt</h3>
-            <p class="product-price">&#8377;8.00</p>
-            <div class="quantity-controls">
-                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
-                <span class="quantity">1</span>
-                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
-            </div>
-            <button class="add-to-cart" onclick="addToCart(this)">
-                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                </svg>
-                Add to Cart
-            </button>
-        </div>
-        <div class="product-card">
-            <img src="yogurt.jpg" alt="Greek Yogurt" class="product-image">
-            <h3 class="product-name">Greek Yogurt</h3>
-            <p class="product-price">&#8377;8.00</p>
-            <div class="quantity-controls">
-                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
-                <span class="quantity">1</span>
-                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
-            </div>
-            <button class="add-to-cart" onclick="addToCart(this)">
-                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                </svg>
-                Add to Cart
-            </button>
-        </div>
-        <div class="product-card">
-            <img src="yogurt.jpg" alt="Greek Yogurt" class="product-image">
-            <h3 class="product-name">Greek Yogurt</h3>
-            <p class="product-price">&#8377;8.00</p>
-            <div class="quantity-controls">
-                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
-                <span class="quantity">1</span>
-                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
-            </div>
-            <button class="add-to-cart" onclick="addToCart(this)">
-                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                </svg>
-                Add to Cart
-            </button>
-        </div>
-        <div class="product-card">
-            <img src="yogurt.jpg" alt="Greek Yogurt" class="product-image">
-            <h3 class="product-name">Greek Yogurt</h3>
-            <p class="product-price">&#8377;8.00</p>
-            <div class="quantity-controls">
-                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
-                <span class="quantity">1</span>
-                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
-            </div>
-            <button class="add-to-cart" onclick="addToCart(this)">
-                <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                </svg>
-                Add to Cart
-            </button>
-        </div>
-        <!-- Add more product cards as needed -->
+        {% empty %}
+        <p class="no-products">No products found.</p>
+        {% endfor %}
     </div>
 </div>
-<script>
+
+<!-- <script>
     function incrementQuantity(btn) {
         const quantitySpan = btn.parentElement.querySelector('.quantity');
         let quantity = parseInt(quantitySpan.textContent);
@@ -161,10 +67,11 @@
         const productName = card.querySelector('.product-name').textContent;
         const quantity = card.querySelector('.quantity').textContent;
         alert(`Added ${quantity} ${productName}(s) to cart`);
-        // Here you can add more functionality to handle the cart
+        // Add logic to send the selected product and quantity to your cart system
     }
-</script>
+</script> -->
 {% endblock %}
+
 
 {% block Content %}
 
