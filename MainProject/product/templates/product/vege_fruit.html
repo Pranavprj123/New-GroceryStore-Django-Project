@@ -34,12 +34,14 @@
                 <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
             </div>
             <!-- <a href="{% url 'Show_Cart' %}">go to cart</a> -->
-            <a href="{% url 'Show_Cart' %}"><button class="add-to-cart" onclick="addToCart(this)">
+            <a href="{% url 'Show_Cart' %}">
+                <button class="add-to-cart" onclick="addToCart(this)">
                 <svg class="cart-icon" fill="none" style="width: 20px;" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                Add to Cart
+                <a href="{% url 'Add_Cart' product.id %}"> Add to Cart</a>
+                
             </button></a>
         </div>
         {% empty %}

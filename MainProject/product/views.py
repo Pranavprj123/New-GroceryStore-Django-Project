@@ -98,8 +98,12 @@ def GrainOil(request):
     return render(request, 'product/grain_oil.html', context)
 
 
-# def DairyProduct(request):
-#     return render(request,'product/dairyproduct.html')
+def Shop(request):
+    products = Product.objects.all()
+    context = {
+        'products': products
+    }
+    return render(request,'product/shop.html',context)
 
 def DairyProduct(request):
     # Base queryset for "Vegetable & Fruits" category
@@ -166,43 +170,89 @@ class ProductDetail(View):
     
 
 
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
-def AddCart(request):
-     # Check if the user is authenticated
-    if not request.user.is_authenticated:
-        messages.error(request, "You need to log in first to add items to the cart.")
-        return redirect('Home')  # Replace 'login' with the name of your login URL pattern
+@login_required
+
+def AddCart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    # Check if product already exists in the cart
+    cart_item, created = Cart.objects.get_or_create(user=request.user, product=product)
+
+    if not created:
+        # Increase quantity if product is already in cart
+        cart_item.quantity += 1
+        cart_item.save()
+        messages.success(request, "Product quantity updated in cart.")
+    else:
+        messages.success(request, "Product added to cart.")
+
+    # Redirect to cart page
+    return redirect('Show_Cart')
+
+
+from django.db.models import Sum, F
+
+@login_required
+def cart(request):
+    cart_items = Cart.objects.filter(user=request.user)
+
+    # Calculate the total amount and subtotal
+    subtotal = cart_items.aggregate(total=Sum(F('quantity') * F('product__discounted_price')))['total'] or 0
+    shipping = 50  # Fixed shipping cost
+    total_amount = subtotal + shipping
+
+    context = {
+        'carts': cart_items,
+        'amount': subtotal,
+        'total_amount': total_amount,
+    }
+
+    return render(request, 'product/cart.html', context)
+
+
+
+
+
+# def AddCart(request):
+#      # Check if the user is authenticated
+#     if not request.user.is_authenticated:
+#         messages.error(request, "You need to log in first to add items to the cart.")
+#         return redirect('Home')  # Replace 'login' with the name of your login URL pattern
     
-    user = request.user
-    product_id = request.GET.get('prod_id') 
-    try:
-        product = Product.objects.get(id=product_id)
+#     user = request.user
+#     product_id = request.GET.get('prod_id') 
+#     try:
+#         product = Product.objects.get(id=product_id)
         
-        # Check if the product is already in the cart
-        cart_item = Cart.objects.filter(user=user, product=product).first()
-        if cart_item:
-            messages.info(request, 'Selected product is already in cart')
-        else:
-            Cart(user=user, product=product).save()
-            messages.success(request, 'Product added to cart successfully!')
-    except Product.DoesNotExist:
-        pass
+#         # Check if the product is already in the cart
+#         cart_item = Cart.objects.filter(user=user, product=product).first()
+#         if cart_item:
+#             messages.info(request, 'Selected product is already in cart')
+#         else:
+#             Cart(user=user, product=product).save()
+#             messages.success(request, 'Product added to cart successfully!')
+#     except Product.DoesNotExist:
+#         pass
 
-    if request.user.is_authenticated:
-        user = request.user
-        cart = Cart.objects.filter(user=user)
-        amount = Decimal(0.0)  # Use Decimal for consistency
-        shipping_amount = Decimal(70.0)  # Convert shipping amount to Decimal
-        total_amount = Decimal(0.0)
-        cart_product = Cart.objects.filter(user=user)  # Filter by user directly in the query
+#     if request.user.is_authenticated:
+#         user = request.user
+#         cart = Cart.objects.filter(user=user)
+#         amount = Decimal(0.0)  # Use Decimal for consistency
+#         shipping_amount = Decimal(70.0)  # Convert shipping amount to Decimal
+#         total_amount = Decimal(0.0)
+#         cart_product = Cart.objects.filter(user=user)  # Filter by user directly in the query
         
-        if cart_product:
-            for p in cart_product:
-                tempamount = (p.quantity * p.product.discounted_price)  # Assume discounted_price is Decimal
-                amount += tempamount
-            total_amount = amount + shipping_amount
+#         if cart_product:
+#             for p in cart_product:
+#                 tempamount = (p.quantity * p.product.discounted_price)  # Assume discounted_price is Decimal
+#                 amount += tempamount
+#             total_amount = amount + shipping_amount
         
-        return render(request, 'product/cart.html', {'carts': cart, 'total_amount': total_amount, 'amount': amount})
+#         return render(request, 'product/cart.html', {'carts': cart, 'total_amount': total_amount, 'amount': amount})
 
 
 def ShowCart(request):
@@ -279,27 +329,6 @@ def calculate_cart_totals(user):
 
 
 
-@login_required
-def wishlist(request):
-    wishlist_items = Wishlist.objects.filter(user=request.user).select_related('product')
-    return render(request, 'product/wishlist.html', {'wishlist_items': wishlist_items})
 
-@login_required
-def add_to_wishlist(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    try:
-        Wishlist.objects.create(user=request.user, product=product)
-        messages.success(request, 'Product added to wishlist successfully!')
-    except:
-        messages.info(request, 'Product is already in your wishlist!')
-    
-    # Return to previous page
-    return redirect(request.META.get('HTTP_REFERER', 'wishlist'))
-
-@login_required
-def remove_from_wishlist(request, product_id):
-    Wishlist.objects.filter(user=request.user, product_id=product_id).delete()
-    messages.success(request, 'Product removed from wishlist!')
-    return redirect(request.META.get('HTTP_REFERER', 'wishlist'))
 
 

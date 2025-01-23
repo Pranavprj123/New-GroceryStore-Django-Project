@@ -39,7 +39,7 @@
             </button>
 
             <button id="cart-button" class="relative hover:text-gray-600">
-                <a href="{% url 'Add_Cart' %}">
+                <a href="{% url 'Show_Cart' %}">
                     <i class="ri-shopping-cart-line"></i>
                     <span id="cart-count"
                         class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
@@ -84,7 +84,7 @@
         <ul class="nav-list">
             <li class="categories-btn"> All Categories</li>
             <a href="{% url 'Home' %}" style="text-decoration: none;color: #ffffff;"><li >Home</li></a>
-            <a href="#" style="text-decoration: none;color: #ffffff;"><li>Shop</li></a>
+            <a href="{% url 'shop' %}" style="text-decoration: none;color: #ffffff;"><li>Shop</li></a>
             <a href="{% url 'vege_fruit' %}" style="text-decoration: none;color: #ffffff;"><li>Vegetables & Fruits</li></a>
             <a href="{% url 'grain_oil' %}" style="text-decoration: none;color: #ffffff;"><li>FoodGrains & Oil</li></a>
             <a href="{% url 'dairyproduct' %}" style="text-decoration: none;color: #ffffff;"><li>Dairy Products</li></a>
@@ -132,34 +132,34 @@
         <h2 class="section-title">Green & Fresh</h2>
         <div class="product-grid">
             <div class="product-card">
-                <img src="/api/placeholder/200/200" alt="Organic Grapes">
+                <img src="media/products/organicc-grapes.png" alt="Organic Grapes">
                 <h3>Organic Grapes</h3>
                 <p class="price">
-                    <span class="original-price">&#8377;22.00</span>
-                    &#8377;20.00
+                    <span class="original-price">&#8377;260</span>
+                    &#8377;250
                 </p>
             </div>
             <div class="product-card">
-                <img src="/api/placeholder/200/200" alt="Organic Green Chillies">
+                <img src="media/products/organicc-green-chillies.png" alt="Organic Green Chillies">
                 <h3>Organic Green Chillies</h3>
-                <p class="price">&#8377;10.00</p>
+                <p class="price">&#8377;80</p>
             </div>
             <div class="product-card">
-                <img src="{{ product.image.url }}" alt="Organic Capsicum">
+                <img src="media/products/organicc-capcicum.png" alt="Organic Capsicum">
                 <h3>Organic Capsicum</h3>
-                <p class="price">&#8377;22.00</p>
+                <p class="price">&#8377;280</p>
             </div>
             <div class="product-card">
-                <img src="/api/placeholder/200/200" alt="Organic Peas">
+                <img src="media/products/organicc-peas.png" alt="Organic Peas">
                 <h3>Organic Peas</h3>
-                <p class="price">&#8377;17.00</p>
+                <p class="price">&#8377;160</p>
             </div>
             <div class="product-card">
-                <img src="/api/placeholder/200/200" alt="Organic Tomatoes">
+                <img src="media/products/organicc-tomatoes.png" alt="Organic Tomatoes">
                 <h3>Organic Tomatoes</h3>
                 <p class="price">
-                    <span class="original-price">&#8377;15.00</span>
-                    &#8377;12.00
+                    <span class="original-price">&#8377;90</span>
+                    &#8377;80
                 </p>
             </div>
         </div>
