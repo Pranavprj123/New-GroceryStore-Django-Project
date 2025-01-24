@@ -15,14 +15,14 @@
 
 <body>
 
-{% block Navbar %}
+    {% block Navbar %}
     <header class="header">
         <a href="{% url 'Home' %}" style="text-decoration: none;">
-            <div class="logo" >
+            <div class="logo">
                 <span>G</span>rocery
             </div>
         </a>
-        
+
         <div class="search-bar">
             <input type="text" placeholder="Search...">
         </div>
@@ -34,65 +34,88 @@
         </div>
 
         <div class="relative">
-            <button id="user-menu-button" class="flex items-center hover:text-gray-600">
-                <i class="ri-user-line"></i>
+            <button id="user-menu-button"
+                style="background: none; border: none; cursor: pointer; color: #333; font-size: 18px; padding: 10px; transition: color 0.3s, transform 0.3s;"
+                onmouseover="this.style.color='#2ECC71'; this.style.transform='scale(1.1)';"
+                onmouseout="this.style.color='#333'; this.style.transform='scale(1)';">
+                <i class="ri-user-line" style="font-size: 24px;"></i>
             </button>
 
-            <button id="cart-button" class="relative hover:text-gray-600">
-                <a href="{% url 'Show_Cart' %}">
-                    <i class="ri-shopping-cart-line"></i>
+
+            <button id="cart-button" style="position: relative; background: none; border: none; cursor: pointer;">
+                <a href="{% url 'Show_Cart' %}"
+                    style="text-decoration: none; color: inherit; display: flex; align-items: center; position: relative;">
+                    <i class="ri-shopping-cart-line" style="font-size: 24px; color: #2ECC71;"></i>
                     <span id="cart-count"
-                        class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                        style="display: none; position: absolute; top: -5px; right: -5px; background-color: #e63946; color: white; font-size: 12px; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-weight: bold;">
                     </span>
                 </a>
             </button>
 
             <!-- Dropdown Menu -->
             <div id="user-dropdown"
-                class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
-                <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                style="display: none; position: absolute; right: 0; margin-top: 10px; width: 200px; background-color: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); z-index: 1000;">
+
+                <a href="{% url 'profile' %}"
+                    style="display: block; padding: 12px 16px; font-size: 14px; color: #333; text-decoration: none; border-bottom: 1px solid #f0f0f0; transition: background-color 0.3s;">
                     My Profile
                 </a>
+
                 <a href="{% url 'password_change' %}"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    style="display: block; padding: 12px 16px; font-size: 14px; color: #333; text-decoration: none; border-bottom: 1px solid #f0f0f0; transition: background-color 0.3s;">
                     Change Password
                 </a>
-                
-                <form action="{% url 'logout' %}" method="POST" class="block">
+
+                <form action="{% url 'logout' %}" method="POST" style="margin: 0;">
                     {% csrf_token %}
                     <button type="submit"
-                        class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        style="display: block; width: 100%; text-align: left; padding: 12px 16px; font-size: 14px; color: white; background-color: #2ECC71;; border: none; cursor: pointer; transition: background-color 0.3s;">
                         Logout
                     </button>
                 </form>
             </div>
+
         </div>
         {% else %}
-        <a href="{% url 'login' %}" class="text-sm uppercase tracking-wider hover:text-gray-600">
+        <a href="{% url 'login' %}" class="loginform"
+            style="border: 1px solid #2ecc71; padding: 6px 8px;text-decoration: none; background-color: #2ecc71; color: white;">
             Login
         </a>
-        <a href="{% url 'register' %}" class="text-sm uppercase tracking-wider hover:text-gray-600">
+        <a href="{% url 'register' %}" class="register"
+            style="border: 1px solid #2ecc71; padding: 6px 8px;text-decoration: none; background-color: #2ecc71; color: white;">
             Register
         </a>
         {% endif %}
-    </div>
-</div>
+        </div>
+        </div>
 
     </header>
 
     <nav class="nav">
         <ul class="nav-list">
             <li class="categories-btn"> All Categories</li>
-            <a href="{% url 'Home' %}" style="text-decoration: none;color: #ffffff;"><li >Home</li></a>
-            <a href="{% url 'shop' %}" style="text-decoration: none;color: #ffffff;"><li>Shop</li></a>
-            <a href="{% url 'vege_fruit' %}" style="text-decoration: none;color: #ffffff;"><li>Vegetables & Fruits</li></a>
-            <a href="{% url 'grain_oil' %}" style="text-decoration: none;color: #ffffff;"><li>FoodGrains & Oil</li></a>
-            <a href="{% url 'dairyproduct' %}" style="text-decoration: none;color: #ffffff;"><li>Dairy Products</li></a>
-            <a href="{% url 'contactus' %}" style="text-decoration: none;color: #ffffff;"><li>Contact Us</li></a>
+            <a href="{% url 'Home' %}" style="text-decoration: none;color: #ffffff;">
+                <li>Home</li>
+            </a>
+            <a href="{% url 'shop' %}" style="text-decoration: none;color: #ffffff;">
+                <li>Shop</li>
+            </a>
+            <a href="{% url 'vege_fruit' %}" style="text-decoration: none;color: #ffffff;">
+                <li>Vegetables & Fruits</li>
+            </a>
+            <a href="{% url 'grain_oil' %}" style="text-decoration: none;color: #ffffff;">
+                <li>FoodGrains & Oil</li>
+            </a>
+            <a href="{% url 'dairyproduct' %}" style="text-decoration: none;color: #ffffff;">
+                <li>Dairy Products</li>
+            </a>
+            <a href="{% url 'contactus' %}" style="text-decoration: none;color: #ffffff;">
+                <li>Contact Us</li>
+            </a>
         </ul>
     </nav>
 
-    
+
     {% endblock %}
 
     {% block HeroSection %}
@@ -165,8 +188,31 @@
         </div>
     </section>
     {% endblock %}
-   
+    <script>
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userDropdown = document.getElementById('user-dropdown');
+
+        userMenuButton.addEventListener('click', () => {
+            const isVisible = userDropdown.style.display === 'block';
+            userDropdown.style.display = isVisible ? 'none' : 'block';
+        });
+
+        const cartCount = document.getElementById('cart-count');
+
+        // Update the cart count dynamically
+        function updateCartCount(count) {
+            if (count > 0) {
+                cartCount.style.display = 'flex';
+                cartCount.textContent = count;
+            } else {
+                cartCount.style.display = 'none';
+            }
+        }
+
+        // Example: Update the count to 3
+        updateCartCount(0);
+
+    </script>
 </body>
 
 </html>
-
