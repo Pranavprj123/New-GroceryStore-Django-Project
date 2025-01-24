@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f4f6f9;
+        line-height: 1.6;
+    }
+
+    .checkout-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #f1f3f5;
+        padding-bottom: 1rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-right: 1rem;
+    }
+
+    .address-selection {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .address-card {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .address-card:hover {
+        border-color: #3498db;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .address-card input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+    }
+
+    .address-card input[type="radio"]:checked + .address-content {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .address-details {
+        color: #6c757d;
+    }
+
+    .add-address-btn {
+        display: inline-block;
+        background-color: #f8f9fa;
+        color: #2c3e50;
+        border: 2px dashed #ced4da;
+        padding: 1rem;
+        text-align: center;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .order-summary {
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+
+    .order-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .order-summary-total {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 2px solid #e9ecef;
+    }
+
+    .razorpay-payment-button {
+        width: 100%;
+        padding: 1rem;
+        background-color: #2ecc71 !important;
+        color: white !important;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600 !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: background-color 0.3s ease;
+    }
+
+    .razorpay-payment-button:hover {
+        background-color: #239653 !important;
+    }
+</style>
+{% endblock %}
+
+{% block HeroSection %}
+<div class="checkout-container">
+    <div class="section-header">
+        <h2>Shipping & Payment</h2>
+    </div>
+
+    <form action="/paymentdone" id="myform">
+        <div class="address-selection">
+            {% for ad in add %}
+            <label class="address-card">
+                <input type="radio" name="custid" value="{{ad.id}}" {% if forloop.first %}checked{% endif %}>
+                <div class="address-content">
+                    <div>{{ad.name}}</div>
+                    <div class="address-details">{{ad.locality}}, {{ad.city}}, {{ad.state}} - {{ad.zipcode}}</div>
+                    <div class="address-details">{{ad.address}}</div>
+                </div>
+            </label>
+            {% endfor %}
+            
+            <a href="{% url 'profile' %}" class="add-address-btn">
+                + Add New Address
+            </a>
+        </div>
+    </form>
+
+    <div class="order-summary">
+        <h2 class="section-header">Order Summary</h2>
+        
+        <div class="order-items">
+            {% for item in cart_items %}
+            <div class="order-item">
+                <div class="item-details">
+                    <div>{{item.product.brand}}</div>
+                    <small>Quantity: {{item.quantity}}</small>
+                </div>
+                <div class="item-price">₹{{item.total_cost}}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="order-summary-total">
+            <div class="order-summary-breakdown">
+                <div class="order-item">
+                    <span>Subtotal</span>
+                    <span>₹{{total_amount|add:"-50"}}</span>
+                </div>
+                <div class="order-item">
+                    <span>Delivery</span>
+                    <span>₹50</span>
+                </div>
+                <div class="order-item" style="font-weight: 600;">
+                    <span>Total</span>
+                    <span>₹{{total_amount}}</span>
+                </div>
+            </div>
+
+            <form action="http://127.0.0.1:8000/" method="POST">
+                <script 
+                    src="https://checkout.razorpay.com/v1/checkout.js"
+                    data-key="{{ razorpay_key }}"
+                    data-amount="{{ razorpay_amount }}"
+                    data-currency="{{ currency }}"
+                    data-order_id="{{ razorpay_order_id }}"
+                    data-buttontext="Complete Payment"
+                    data-name="Grocery"
+                    data-description="Complete your purchase"
+                    data-image="{% static 'images/your-logo.png' %}"
+                    data-prefill.name="{{ request.user.first_name }}"
+                    data-prefill.email="{{ request.user.email }}"
+                    data-theme.color="#3498db"
+                ></script>
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            </form>
+        </div>
+    </div>
+</div>
+{% block Content %}
+{% endblock %}
+{% endblock %}

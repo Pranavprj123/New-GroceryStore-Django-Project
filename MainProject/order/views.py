@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 from django.urls import reverse
+from product.models import Cart
 from decimal import Decimal
 import razorpay
 from .models import  Order, OrderDetails
@@ -23,7 +24,7 @@ def checkout(request):
     
     # Initialize amounts
     amount = Decimal('0.0')
-    shipping_amount = Decimal('70.0')
+    shipping_amount = Decimal('50.0')
     
     # Calculate total amount from cart items
     if cart_items.exists():
@@ -91,7 +92,7 @@ def payment_handler(request):
 
             # Calculate total amount
             total = sum(item.quantity * item.product.selling_price for item in cart_items)
-            shipping_amount = Decimal('70.0')
+            shipping_amount = Decimal('50.0')
             total_amount = total + shipping_amount
 
             # Create Order
